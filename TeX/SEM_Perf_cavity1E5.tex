@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+\def\Ne{10}
+\def\Ra{1e5}
+\begin{axis}[
+	width=\textwidth,
+	height=\textwidth,
+%	axis equal,
+	xmin=0,xmax=1,
+	ymin=0,ymax=1,
+	xlabel={$x/L_x$},
+	ylabel={$y/L_y$},
+	table/col sep=comma,
+	legend pos= north east,
+	legend style={cells={anchor=west}},
+	xtick distance=0.2,
+	ytick distance=0.2,
+	title={
+		$N_{\text{e}x}:=N_{\text{e}y}:=\num{\Ne}$, $Ra := \num{\Ra}$}, 
+	title style={anchor=south west, at={(0,1)}, fill=white, draw=black, align=left}]
+	\foreach \i in {0,1,...,83}{
+		\addplot[HKS44, ->-] table[x=x\i, y=y\i] {\detokenize{stream_BoussinesqJNK_1.0e+03~1.0e+05~0.71_4~10_1e-08_1e-13~20_1e-13.plot}};
+	}
+	\pgfplotsinvokeforeach{0,1,...,8}{
+		\addplot[HKS07, solid] table[x=x#1, y=y#1] {\detokenize{contour_BoussinesqJNK_1.0e+03~1.0e+05~0.71_4~10_1e-08_1e-13~20_1e-13.plot}} node[pos=1-(#1+1)*0.1, below right, inner sep=0pt] {\pgfmathparse{(#1+1)*0.1-0.5}\scriptsize{\SI[round-mode=places,round-precision=1]{\pgfmathresult}{}}};
+	}
+\end{axis}
+\end{tikzpicture}

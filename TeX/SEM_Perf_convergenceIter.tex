@@ -1,0 +1,43 @@
+\begin{tikzpicture}
+\def\RaA{2.2e+03}
+\def\RaB{1.0e+04}
+\def\Ne{8}
+\begin{semilogyaxis}[
+	enlarge x limits=0.01,
+	clip=true,
+	height=0.58\textheight,
+	width=0.98\textwidth,
+	xlabel={iteration number},
+	ylabel={Root mean square residual},
+	table/col sep=comma,
+	legend pos= north east,
+	legend style={cells={anchor=west}},
+	legend columns=2, 
+	ytick ={1e0,1e-2,1e-4,1e-6,1e-8,1e-10},
+	ymin=5e-11,
+	ymax=2e-1,
+	xmax=90,
+	cycle multi list={
+		{HKS44,mark=*,mark size=1.5pt},{HKS07,mark=square*,mark size=1.5pt},{HKS65,mark=triangle*,mark size=2pt}\nextlist
+		{solid},{densely dashed,every mark/.append style={fill=white,solid}}},
+	grid=major,
+	restrict x to domain=0:,
+	title={$N_{\text{e}x}:=N_{\text{e}y}:=\num{\Ne}$},
+	title style={anchor=south west, at={(0,1)}, fill=white, draw=black, align=left}
+	]
+	\pgfplotsset{cycle list shift=1}
+	\addplot+[only marks] table[x=iter,y=mres] {Boussinesq_study/BoussinesqJNK_1.0e+03\string~\RaB\string~0.71_4\string~\Ne_1e-10_1e-13\string~20_1e-13.history};
+	\addlegendentry{JNK $Ra:=\num{\RaB}$};
+	\addplot+[only marks, error bars/.cd, y dir=plus, y explicit, error bar style={solid}] table[x=iter,y=mres,y error expr=\thisrow{AGmres}-\thisrow{mres}] {Boussinesq_study/BoussinesqNJ_1.0e+03\string~\RaA\string~0.71_4\string~\Ne_1e-10\string~8\string~0.8\string~0.2_1e-13.history};
+	\addlegendentry{NJ $Ra:=\num{\RaA}$};
+	\addplot+[only marks, error bars/.cd, y dir=plus, y explicit, error bar style={solid}] table[x=iter,y=mres,y error expr=\thisrow{AGmres}-\thisrow{mres}] {Boussinesq_study/BoussinesqNJ_1.0e+03\string~\RaB\string~0.71_4\string~\Ne_1e-10\string~8\string~0.8\string~0.2_1e-13.history};
+	\addlegendentry{NJ $Ra:=\num{\RaB}$};
+	\addplot+[only marks] table[x expr=\thisrow{iter}-1,y=mres] {Boussinesq_study/BoussinesqGS_1.0e+03\string~\RaA\string~0.71_4\string~\Ne_1e-10_1e-13.history};
+	\addlegendentry{GS $Ra:=\num{\RaA}$};
+	\addplot+[only marks] table[x expr=\thisrow{iter}-1,y=mres] {Boussinesq_study/BoussinesqGS_1.0e+03\string~\RaB\string~0.71_4\string~\Ne_1e-10_1e-13.history};
+	\addlegendentry{GS $Ra:=\num{\RaB}$};	
+	\pgfplotsset{cycle list shift=4}
+	\addplot+[only marks, mark=diamond*, mark size=2pt] table[x=iter,y=mres] {Boussinesq_study/BoussinesqNJ_1.0e+03\string~\RaB\string~0.71_4\string~\Ne_1e-10\string~0\string~0.0\string~0.0_1e-13.history};
+	\addlegendentry{NJ (no AG) $Ra:=\num{\RaB}$};
+\end{semilogyaxis}
+\end{tikzpicture}

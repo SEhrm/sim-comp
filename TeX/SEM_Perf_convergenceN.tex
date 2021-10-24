@@ -1,0 +1,93 @@
+\begin{tikzpicture}
+\def\Ra{1.0e+03}
+\begin{groupplot}[
+	group style={group size=1 by 4,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+    vertical sep=1em},
+%	xmode=log, ymode=log,
+	ymode=log,
+	xmode=log,
+	enlarge x limits=0.01,
+	clip=true,
+	height=0.21\textheight,
+	width=0.7\textwidth,
+	xlabel={$N_{\text{e}x} = N_{\text{e}x}$},
+	xmin=4,xmax=12,
+	xtick = {2,4,6,8,10,12},
+	xticklabels = {2,4,6,8,10,12},
+    table/col sep=comma,
+	legend pos=south west,
+	legend style={cells={anchor=west}},
+	cycle multi list=my color,
+	xtick distance=2,
+	ymajorgrids,yminorgrids,
+	xmajorgrids,
+	]
+	\pgfplotsset{my plot/.code args={#1/#2/#3}%setup
+	{
+		\addplot+[x filter/.code={\ifthenelse{
+			\equal{\thisrow{mode_id}}{#2}\AND
+			\equal{\thisrow{Ra}}{\Ra}\AND
+			\(\equal{\thisrow{AGi}}{8}\OR\NOT\equal{\thisrow{mode_id}}{1}\)
+			}{}{\def\pgfmathresult{NaN}}}]
+		table[x=N_e,y expr=#3] {Boussinesq_study.csv};
+		\edef\temp{\noexpand\addlegendentry{#1}}\temp
+	}}
+	%=========
+	\nextgroupplot[
+	height=0.2\textheight,
+	ymin=1e+0,ymax=1e+4,
+	ylabel={LB for $\kappa\left( \at{\pdiff{\vec{r}_T}{\vec{T}}}{P\acute{e}:=0} \right)$},
+	title={$Ra := \num{\Ra}$}, 
+	title style={anchor=south west, at={(0,1)}, fill=white, draw=black, align=left}
+	]
+	\addplot+[black, every mark/.append style={fill=black}] table[x=N,y=cond,col sep=space] {
+	N cond
+%	2 107.61690326474734
+%	3 233.3875953293447
+	4 407.7519137424212
+	6 901.3805189299025
+	8 1587.9146440096501
+	10 2467.258382820057
+	12 3539.3816867556307
+	14 4804.272087631958
+	16 6261.923476377029
+	18 7912.332506209623
+	};
+	\addplot[black,loosely dashed,no marks] coordinates {
+		(4.5,2e2)
+		(11,{2e2*(11/4.5)^2})
+	} node[near start, below]{\scriptsize{$2$}};
+	%=========
+	\nextgroupplot[
+	ymin=1e+0,ymax=3e+1,
+	ytick = {1e-1,1e0,1e1,1e2},
+	ylabel={Amount of iterations},
+	]
+	\pgfplotsset{my plot={JNK/0/\thisrow{iter_nonlin}}};
+	\pgfplotsset{my plot={NJ/1/\thisrow{iter_nonlin}}};
+	\pgfplotsset{my plot={GS/2/\thisrow{iter_nonlin}}};
+	\legend{};
+	%=========
+	\nextgroupplot[
+	ymin=1e+1,ymax=1e+2,
+	ytick = {1e0,1e1,1e2,1e3,1e4},
+	ylabel={Amount of calls},	
+	]
+	\pgfplotsset{my plot={JNK/0/\thisrow{iter_lin}}};
+	\pgfplotsset{my plot={NJ/1/\thisrow{iter_lin}}};
+	\pgfplotsset{my plot={GS/2/\thisrow{iter_lin}}};
+	\legend{};
+	%==========
+	\nextgroupplot[
+	ymin=1e+0,ymax=5e+1,
+	ytick = {1e0,1e1,1e2},
+	ylabel={Amount of calls per iter.},
+	]
+	\pgfplotsset{my plot={JNK/0/\thisrow{iter_lin}/\thisrow{iter_nonlin}}};
+	\pgfplotsset{my plot={NJ/1/\thisrow{iter_lin}/\thisrow{iter_nonlin}}};
+	\pgfplotsset{my plot={GS/2/\thisrow{iter_lin}/\thisrow{iter_nonlin}}};
+	%\legend{};
+\end{groupplot}
+\end{tikzpicture}

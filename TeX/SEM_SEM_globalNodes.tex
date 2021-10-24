@@ -1,0 +1,39 @@
+\begin{tikzpicture}[scale=5.5]
+\def\Nx{2}
+\def\Ny{3}
+\def\P{3}
+
+%\node[draw, circle, fill=red, scale=0.2] at (0,0) {};
+\foreach \m in {0,...,\Nx-1}
+{
+	\foreach \n in {0,...,\Ny-1}
+	{
+		\draw[densely dashed] ({(1/\Nx)*\m},{(1/\Ny)*\n}) rectangle ({(1/\Nx)*(\m+1)},{(1/\Ny)*(\n+1)}) node[pos=.5]
+		{\tiny \ifthenelse{\m=0 \and \n=0}{$m{=}\m$,$n{=}\m$}{\m,\n}};
+%		\draw[densely dashed] ({0},{(1/\Ny)*(\n+1)}) -- ({1},{1/\Ny)*(\n+1)});
+%		\draw[densely dashed] ({(1/\Nx)*(\m+1)},{0}) -- ({1/\Nx)*(\m+1)},{1});
+		\foreach[count=\i from 0] \vxi in {-1,-0.45,0.45,1}
+		{
+			\foreach[count=\j from 0, evaluate=\p using {int(\n*\P+\j + (\Ny*\P+1) * (\m*\P+\i))}] \veta in {-1,-0.45,0.45,1}
+			{
+				\node[draw, circle, fill=black, scale=0.1, label=above right:
+				{\tiny %
+				\ifthenelse{\i>0 \and \j>0}{\p}{}%
+				\ifthenelse{\m=0 \and \i=0 \and \j>0}{\p}{}%
+				\ifthenelse{\n=0 \and \j=0 \and \i>0}{\p}{}%
+				\ifthenelse{\m=0 \and \n=0 \and \i=0 \and \j=0}{$p{=}\p$}{}%
+				}
+				] at ({0.5*(1/\Nx)*(\vxi+1)+(1/\Nx)*\m},{0.5*(1/\Ny)*(\veta+1)+(1/\Ny)*\n}) {};
+			}
+		}
+	}
+}
+%\draw[-|] (0,0) -- (0,1) node[left] {$L_y$};
+\draw[->] (0,0) -- (0,1.1) node [left] {$y$};
+%\draw[-|] (0,0) -- (1,0) node[below] {$L_x$};
+\draw[->] (0,0) -- (1.1,0) node [right] {$x$};
+\node[left] at (0,1) {$L_y$};
+\node[left] at (0,{1/\Ny}) {$\Delta y$};
+\node[below] at (1,0) {$L_x$};
+\node[below] at ({1/\Nx},0) {$\Delta x$};
+\end{tikzpicture}%

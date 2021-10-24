@@ -1,0 +1,75 @@
+\usepackage{xifthen}
+\newcommand{\bigO}[1]{\mathcal{O}\left( #1 \right)}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\sgn}[1]{\operatorname{sgn}#1}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\renewcommand{\det}[0]{\operatorname{det}}
+\newcommand{\uint}[2]{\int #1\, \mathrm{d}#2}
+\newcommand{\uoint}[2]{\oint #1\, \mathrm{d}#2}
+\newcommand{\bint}[4]{\int\limits_{#3}^{#4} #1\, \mathrm{d}#2}
+\newcommand{\boint}[4]{\oint\limits_{#3}^{#4} #1\, \mathrm{d}#2}
+\newcommand{\diff}[3][]{\ifthenelse{\equal{#1}{}}{\frac{\mathrm{d}#2}{\mathrm{d}#3}}{\frac{\mathrm{d}^{#1}#2}{\mathrm{d}#3^{#1}}}}
+\newcommand{\diffa}[4][]{\ifthenelse{\equal{#1}{}}{\left.\frac{\mathrm{d}#2}{\mathrm{d}#3}\right\vert_{#4}}{\left.\frac{\mathrm{d}^{#1}#2}{\mathrm{d}#3^{#1}}\right\vert_{#4}}}
+\newcommand{\ddiff}[3][]{\ifthenelse{\equal{#1}{}}{\dfrac{\mathrm{d}#2}{\mathrm{d}#3}}{\frac{\mathrm{d}^{#1}#2}{\mathrm{d}#3^{#1}}}}
+\newcommand{\ddiffa}[4][]{\ifthenelse{\equal{#1}{}}{\left.\dfrac{\mathrm{d}#2}{\mathrm{d}#3}\right\vert_{#4}}{\left.\dfrac{\mathrm{d}^{#1}#2}{\mathrm{d}#3^{#1}}\right\vert_{#4}}}
+\newcommand{\pdiff}[3][]{\ifthenelse{\equal{#1}{}}{\frac{\mathrm{\partial}#2}{\mathrm{\partial}#3}}{\frac{\mathrm{\partial}^{#1}#2}{\mathrm{\partial}#3^{#1}}}}
+\newcommand{\pdiffa}[4][]{\ifthenelse{\equal{#1}{}}{\left.\frac{\mathrm{\partial}#2}{\mathrm{\partial}#3}\right\vert_{#4}}{\left.\frac{\mathrm{\partial}^{#1}#2}{\mathrm{\partial}#3^{#1}}\right\vert_{#4}}}
+\newcommand{\dpdiff}[3][]{\ifthenelse{\equal{#1}{}}{\dfrac{\mathrm{\partial}#2}{\mathrm{\partial}#3}}{\dfrac{\mathrm{\partial}^{#1}#2}{\mathrm{\partial}#3^{#1}}}}
+\newcommand{\dpdiffa}[4][]{\ifthenelse{\equal{#1}{}}{\left.\dfrac{\mathrm{\partial}#2}{\mathrm{\partial}#3}\right\vert_{#4}}{\left.\dfrac{\mathrm{\partial}^{#1}#2}{\mathrm{\partial}#3^{#1}}\right\vert_{#4}}}
+\newcommand{\fdiff}[3][]{\ifthenelse{\equal{#1}{}}{\frac{\delta#2}{\delta#3}}{\frac{\delta^{#1}#2}{\delta#3^{#1}}}}
+\newcommand{\fdiffa}[4][]{\ifthenelse{\equal{#1}{}}{\left.\frac{\delta#2}{\delta#3}\right\vert_{#4}}{\left.\frac{\delta^{#1}#2}{\delta#3^{#1}}\right\vert_{#4}}}
+\newcommand{\e}[0]{\mathrm{e}}
+\renewcommand{\d}[0]{\mathrm{d}}
+\let\ten\vec
+\renewcommand{\vec}[1]{\boldsymbol{#1}}
+\newcommand{\mat}[1]{\boldsymbol{#1}}
+\newcommand{\mmat}[1]{\boldsymbol{#1}}
+\newcommand{\emat}[1]{\mathfrak{#1}}
+\newcommand{\sdot}[0]{\circ}
+\newcommand{\T}[0]{\mathrm{T}}
+\newcommand{\del}[0]{\vec{\nabla}}
+\newcommand{\dela}[2]{\left. \operatorname{\vec{\nabla}} #1\right\vert_{#2}}
+\newcommand{\grad}[0]{\operatorname{grad}}
+\renewcommand{\div}[0]{\operatorname{div}}
+\newcommand{\rot}[0]{\operatorname{rot}}
+\newcommand{\laplace}{\del^2} %
+\newcommand{\iu}{\mathrm{i}}
+\newcommand{\svec}[3]{\begin{bmatrix} #1 \\ #2 \\#3 \end{bmatrix}}
+\newcommand{\zvec}[3]{\begin{bmatrix} #1 & #2 & #3 \end{bmatrix}}
+\newcommand{\floor}[1]{\left\lfloor#1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil#1\right\rceil}
+%\newcommand{\lg}[0]{\operatorname{lg}}
+\newcommand{\at}[2]{\left.#1 \right\vert_{#2}}
+\newcommand{\atsmall}[2]{#1\!{\vert\!}_{#2}}
+
+\newcommand{\maxin}[1]{\operatorname{\underset{\mathnormal{#1}}{max}}}
+\newcommand{\minin}[1]{\operatorname{\underset{\mathnormal{#1}}{min}}}
+\newcommand{\argmaxin}[1]{\operatorname{\underset{\mathnormal{#1}}{arg max}}}
+\newcommand{\argminin}[1]{\operatorname{\underset{\mathnormal{#1}}{arg min}}}
+
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+\newcommand{\cstpl}[1]{\left(\rule{0 cm}{#1}\right.}
+\newcommand{\cstpr}[1]{\left.\rule{0 cm}{#1}\right)}
+\newcommand{\cstbl}[1]{\left\lbrace\rule{0 cm}{#1}\right.}
+\newcommand{\cstbr}[1]{\left.\rule{0 cm}{#1}\right\rbrace}
+\newcommand{\cstvl}[1]{\left\vert\rule{0 cm}{#1}\right.}
+\newcommand{\cstvr}[1]{\left.\rule{0 cm}{#1}\right\vert}
+
+\makeatletter
+\newcommand{\subalign}[1]{%
+  \vcenter{%
+    \Let@ \restore@math@cr \default@tag
+    \baselineskip\fontdimen10 \scriptfont\tw@
+    \advance\baselineskip\fontdimen12 \scriptfont\tw@
+    \lineskip\thr@@\fontdimen8 \scriptfont\thr@@
+    \lineskiplimit\lineskip
+    \ialign{\hfil$\m@th\scriptstyle##$&$\m@th\scriptstyle{}##$\hfil\crcr
+      #1\crcr
+    }%
+  }%
+}
+\makeatother

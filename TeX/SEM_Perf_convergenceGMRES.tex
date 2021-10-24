@@ -1,0 +1,37 @@
+\begin{tikzpicture}
+\def\RaA{4.6e+03}
+\def\RaB{4.6e+02}
+\def\Ne{8}
+\begin{semilogyaxis}[
+	enlarge x limits=0.01,
+	clip=true,
+	height=0.39\textheight,
+	width=0.95\textwidth,
+	xlabel={GMRES iteration number},
+	ylabel={Root mean square residual},
+	table/col sep=comma,
+	legend pos= north east,
+	legend style={cells={anchor=west}},
+	ytick ={1e0,1e-2,1e-4,1e-6,1e-8,1e-10,1e-12,1e-14,1e-16,1e-18},
+%	ymin=5e-9,
+%	ymax=4e-2,
+%	xmax=40,
+	cycle multi list={
+		{HKS44, every mark/.append style={fill=white,solid}},{HKS44, every mark/.append style={fill=HKS44,solid}}\nextlist
+		{mark=*,mark size=1.5pt},{mark=square*,mark size=1.5pt, dashed},{mark=triangle*,mark size=2pt, dash dot},{mark=diamond*, mark size=2pt, dotted}
+	},
+	grid=major,
+%	restrict x to domain=0:,
+	title={$N_{\text{e}x}:=N_{\text{e}y}:=\num{\Ne}$},
+	title style={anchor=south west, at={(0,1)}, fill=white, draw=black, align=left}
+	]
+	\foreach \j in {0,1,2,3} {
+		\addplot+[x filter/.code={\ifthenelse{\equal{\thisrow{newton}}{\j}}{}{\def\pgfmathresult{NaN}}}] table[x=iter,y=mres] {Boussinesq_study/BoussinesqJNK_1.0e+03\string~\RaA\string~0.71_4\string~\Ne_1e-10_1e-13\string~20_1e-13.gmres};
+		\edef\temp{\noexpand\addlegendentry{$Ra:=\num{\RaA}$, \j}}\temp
+	}
+	\foreach \j in {0,1} {
+		\addplot+[x filter/.code={\ifthenelse{\equal{\thisrow{newton}}{\j}}{}{\def\pgfmathresult{NaN}}}] table[x=iter,y=mres] {Boussinesq_study/BoussinesqJNK_1.0e+03\string~\RaB\string~0.71_4\string~\Ne_1e-10_1e-13\string~20_1e-13.gmres};
+		\edef\temp{\noexpand\addlegendentry{$Ra:=\num{\RaB}$, \j}}\temp
+	}
+\end{semilogyaxis}
+\end{tikzpicture}

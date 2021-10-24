@@ -1,0 +1,20 @@
+\begin{abstract}
+\begin{small}
+When monolithic approaches to solve multidisciplinary problems are not feasible, single-disciplinary solvers must be coupled.
+The NASA-developed \textit{Python} framework \textit{OpenMDAO}, which manages the communication between the single-disciplinary solvers, is used to implement various coupling methods (some of which support MPI-parallelism).
+The feasibility of using \textit{OpenMDAO} on large-scale industrial problems is assessed, based on the experiences made with a small academic problem~--~stationary natural convection of a fluid in a square cavity.
+Two deliberately simple single-disciplinary solvers~--~one for the convection-diffusion equation and one for the \textsc{Navier}-\textsc{Stokes} equations~--~are implemented in \textit{Python}.
+The solutions returned from \textit{OpenMDAO} match the reference, and the iterative convergence behaviors of the tested coupling methods match their theoretical expectations~--~so there is no considerable drawback on convergence when using \textit{OpenMDAO}.
+\textit{OpenMDAO} allows to quickly test various coupling methods, but it should only be used if the single-disciplinary solvers are fixed and runtime performance is not a major issue. 
+\end{small}
+%========================================
+\nextabstract[ngerman]
+\begin{small}
+Wenn monolithische Ans\"atze zur L\"osung multidisziplin\"arer Probleme nicht durchf\"uhrbar sind, m\"ussen einzeldisziplin\"are Solver gekoppelt werden.
+Das NASA-entwickelte \textit{Python}-Framework \textit{OpenMDAO}, welches die Kommunikation zwischen den einzeldisziplin\"aren Solvern verwaltet, wird zur Implementierung verschiedener Kopplungsmethoden verwendet (von denen einige MPI-Parallelit\"at unterst\"utzen).
+Die Einsetzbarkeit von \textit{OpenMDAO} bei gro{\ss}en industriellen Problemen wird auf der Grundlage der Erfahrungen mit einem kleinen akademischen Problem - der station\"aren nat\"urlichen Konvektion eines Fluids in einem quadratischen Hohlraum - bewertet.
+Zwei bewusst einfach gehaltene einzeldisziplin\"are Solver~--~einer f\"ur die Konvektions-Diffusionsgleichung und einer f\"ur die \textsc{Navier}-\textsc{Stokes}-Gleichungen~--~werden in \textit{Python} implementiert.
+Die von \textit{OpenMDAO} ausgegebenen L\"osungen stimmen mit der Referenz \"uberein, und die iterative Konvergenzverhalten der getesteten Kopplungsmethoden entsprechen deren theoretischen Erwartungen, sodass es bei der Verwendung von \textit{OpenMDAO} keine nennenswerten Nachteile hinsichtlich der Konvergenz gibt.
+\textit{OpenMDAO} erlaubt es verschiedene Kopplungsmethoden schnell zu testen, sollte aber nur verwendet werden wenn die einzeldisziplin\"aren Solver feststehen und die Laufzeitleistung keine gro{\ss}e Rolle spielt.
+\end{small}
+\end{abstract}

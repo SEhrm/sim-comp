@@ -1,0 +1,102 @@
+\begin{tikzpicture}
+\def\Ne{8}
+\begin{groupplot}[
+	group style={group size=1 by 3,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+    vertical sep=1em},
+    xmode=log, ymode=log,
+	enlarge x limits=0.01,
+	clip=true,
+	height=0.37\textheight,
+	width=0.85\textwidth,
+	xlabel={$Ra$},
+	xmin=1e2,xmax=1e5,
+    table/col sep=comma,
+	legend pos=south east,
+	legend style={cells={anchor=west}},
+	cycle multi list=my color,
+%	xtick distance=5,
+	ymajorgrids,yminorgrids,
+	xmajorgrids,
+	]
+	\pgfplotsset{my plot/.code args={#1/#2/#3}%setup
+	{
+		\addplot+[x filter/.code={\ifthenelse{
+			\equal{\thisrow{mode_id}}{#2}\AND
+			\equal{\thisrow{N_e}}{\Ne}\AND
+			\(\equal{\thisrow{AGi}}{8}\OR\NOT\equal{\thisrow{mode_id}}{1}\)
+			}{}{\def\pgfmathresult{NaN}}}]
+		table[x=Ra,y expr=#3] {Boussinesq_study.csv};
+		\edef\temp{\noexpand\addlegendentry{#1}}\temp
+	}}
+	\pgfplotsset{my plot2/.code args={#1/#2/#3}%setup
+	{
+		\pgfplotsset{cycle list shift=-1}
+		\addplot+[dashed, every mark/.append style={fill=white,solid},
+		x filter/.code={\ifthenelse{
+			\equal{\thisrow{mode_id}}{#2}\AND
+			\equal{\thisrow{N_e}}{\Ne}\AND
+			\(\equal{\thisrow{AGi}}{-1}\OR\equal{\thisrow{AGi}}{0}\)
+			}{}{\def\pgfmathresult{NaN}}}]
+		table[x=Ra,y expr=#3] {Boussinesq_study.csv};
+		\edef\temp{\noexpand\addlegendentry{#1, no AG}}\temp
+	}}
+	%=========
+	\nextgroupplot[
+	height=0.27\textheight,
+	ymin=5e-3,ymax=0,
+	ylabel={Mean rate of convergence},
+	title={$N_{\text{e}x}:=N_{\text{e}y}:=\num{\Ne}$}, 
+	title style={anchor=south west, at={(0,1)}, fill=white, draw=black, align=left}
+	]
+	\pgfplotsset{cycle list shift=1}
+	\pgfplotsset{my plot={NJ/1/\thisrow{mean_linRoC}}};
+	%\pgfplotsset{my plot2={NJ/1/\thisrow{mean_linRoC}}};
+	\pgfplotsset{my plot={GS/2/\thisrow{mean_linRoC}}};
+	\addplot[black,loosely dashed,no marks] coordinates {
+		(1e2,1.5e-1)
+		(2.2e3,{1.5e-1*sqrt(2.2e3/1e2)})
+	} node[near start, above]{\scriptsize{$1/2$}};
+	\addplot[black,loosely dashed,no marks] coordinates {
+		(1e2,1e-2)
+		(4.6e3,{1e-2*(4.6e3/1e2)})
+	} node[midway, below]{\scriptsize{$1$}};
+	\legend{};
+	%=========
+	\nextgroupplot[
+	ymin=1,ymax=600,
+	ytick = {1e0,1e1,1e2,1e3},
+	ylabel={Amount of iterations},
+	]
+	\pgfplotsset{my plot={JNK/0/\thisrow{iter_nonlin}}};
+	\pgfplotsset{my plot={NJ/1/\thisrow{iter_nonlin}}};	
+	\pgfplotsset{my plot2={NJ/1/\thisrow{iter_nonlin}}};
+	\pgfplotsset{my plot={GS/2/\thisrow{iter_nonlin}}}; % corrected for use_subsolver
+
+	\legend{};
+	%=========
+%	\nextgroupplot[
+%	%height=0.2\textheight,
+%	ymin=1,
+%	ytick = {1e0,1e1,1e2},
+%	ylabel={calls/iteration},
+%	]
+%	\pgfplotsset{my plot={JNK/0/\thisrow{iter_lin}/\thisrow{iter_nonlin}}};
+%	\pgfplotsset{my plot={NJ/1/\thisrow{iter_lin}/\thisrow{iter_nonlin}}};
+%	\pgfplotsset{my plot={GS/2/\thisrow{iter_lin}/(\thisrow{iter_nonlin}-1)}}; % correction for use_subsolver
+%	%\pgfplotsset{my plot2={NJ/1/\thisrow{iter_nonlin}}};
+%	\legend{};
+	%=========
+	\nextgroupplot[
+	ymin=10,ymax=1500,
+	ytick = {1e0,1e1,1e2,1e3,1e4},
+	ylabel={Amount of calls},	
+	]
+	\pgfplotsset{my plot={JNK/0/\thisrow{iter_lin}}};
+	\pgfplotsset{my plot={NJ/1/\thisrow{iter_lin}}};
+	\pgfplotsset{my plot2={NJ/1/\thisrow{iter_lin}}};
+	\pgfplotsset{my plot={GS/2/\thisrow{iter_lin}}};
+	%\legend{};
+	\end{groupplot}
+\end{tikzpicture}

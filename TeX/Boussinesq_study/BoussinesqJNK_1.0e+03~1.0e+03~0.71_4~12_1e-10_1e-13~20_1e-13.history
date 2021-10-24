@@ -1,0 +1,5 @@
+iter,res,AGres,mres,AGmres,mres_old
+0,8.7001e-02,nan,9.8333e-04,nan,nan
+1,2.8239e-03,nan,3.1918e-05,nan,9.8333e-04
+2,3.7398e-06,nan,4.2269e-08,nan,3.1918e-05
+3,8.0197e-12,nan,9.0643e-14,nan,4.2269e-08

@@ -1,6 +1,6 @@
 # Project Paper: *Simulation Components for Evaluating a Framework for Multidisciplinary Analyzes*
 
-[[PDF](EHRMANNTRAUT_SimulationComponentsForEvaluatingAFrameworkForMultidisciplinaryAnalyzes.pdf)]
+[[PDF](TeX/EHRMANNTRAUT_SimulationComponentsForEvaluatingAFrameworkForMultidisciplinaryAnalyzes.pdf)]
 
 **Abstract:**
 When monolithic approaches to solve multidisciplinary problems are not feasible, single-disciplinary solvers must be coupled. The NASA-developed *Python* framework *OpenMDAO*, which manages the communication between the single-disciplinary solvers, is used to implement various coupling methods (some of which support MPI-parallelism). The feasibility of using *OpenMDAO* on large-scale industrial problems is assessed, based on the experiences made with a small academic problem -- stationary natural convection of a fluid in a square cavity. Two deliberately simple single-disciplinary solvers -- one for the convection-diffusion equation and one for the NAVIER-STOKES equations -- are implemented in *Python*. The solutions returned from *OpenMDAO* match the reference, and the iterative convergence behaviors of the tested coupling methods match their theoretical expectations -- so there is no considerable drawback on convergence when using *OpenMDAO*. *OpenMDAO* allows to quickly test various coupling methods, but it should only be used if the single-disciplinary solvers are fixed and runtime performance is not a major issue.

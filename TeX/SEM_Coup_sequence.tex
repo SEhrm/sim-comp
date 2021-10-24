@@ -1,0 +1,29 @@
+\resizebox{0.9\textwidth}{!}{%
+\begin{sequencediagram}
+\ttfamily
+\newthread[HKS41!30]{ns}{:NewtonSolver}
+\newinst[2.5]{fc}{F:f\_comp}
+\newinst[1]{fs}{f:fSolver}
+\newinst[1]{gs}{g:gSolver}
+\begin{call}{ns}{apply\_nonlinear($\vec{x}_\texttt{f}$,$\vec{y}_\texttt{g}$)}{fc}{$\vec{r}_x$}
+	\tikzset{threadstyle/.style={fill=HKS65!30}}
+	\begin{call}{fc}{\texttt{change\_inputs}($\vec{y}_\texttt{g}$)}{fc}{$\vec{y}_\texttt{f}$}
+		\tikzset{threadstyle/.style={fill=HKS65!30}}
+		\node[draw, fill=white, anchor=north, yshift=-4ex] at (sc\thecallevel) {\textnormal{change basis}};
+		\addtocounter{seqlevel}{2}
+		\begin{call}[2]{fc}{\texttt{get\_eval($\vec{y}_\texttt{g}$,$\cdot$)}}{gs}{$y$}
+		\tikzset{threadstyle/.style={fill=HKS07!30}}
+		\node[draw, fill=white, anchor=north, yshift=-2ex] at (ct\thecallevel) {\textnormal{make continuous}};
+		\end{call}
+		\begin{call}[2]{fc}{\texttt{get\_vec($y$)}}{fs}{$\vec{y}_\texttt{f}$}
+		\tikzset{threadstyle/.style={fill=HKS07!30}}
+		\node[draw, fill=white, anchor=north, yshift=-2ex] at (ct\thecallevel) {\textnormal{make discrete}};
+		\end{call}
+	\end{call}
+	\addtocounter{seqlevel}{1}
+	\begin{call}[2]{fc}{get\_res($\vec{x}_\texttt{f}$,$\vec{y}_\texttt{f}$)}{fs}{$\vec{r}_x$}
+		\tikzset{threadstyle/.style={fill=HKS07!30}}
+		\node[draw, fill=white, anchor=north, yshift=-2ex] at (ct\thecallevel) {\textnormal{calc $\vec{r}_x(\vec{x}_\texttt{f},\vec{y}_\texttt{f})$}};
+	\end{call}
+\end{call}
+\end{sequencediagram}}

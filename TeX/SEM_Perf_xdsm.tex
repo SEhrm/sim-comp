@@ -1,0 +1,80 @@
+%adapted from "Python39/lib/site-packages/pyxdsm/diagram_styles"
+\usetikzlibrary{chains,scopes,shapes.geometric,shapes.misc}
+\tikzstyle{every node}=[font=\sffamily,align=center]
+\tikzstyle{MDA} = [rounded rectangle,draw,fill=HKS07!50,inner sep=6pt,minimum height=1cm,text badly centered]
+\tikzstyle{Function} = [rectangle,draw,fill=HKS65!50,inner sep=6pt,minimum height=1cm,text badly centered]
+\tikzstyle{DataInter} = [trapezium,trapezium left angle=75,trapezium right angle=105,draw,fill=black!10]
+\tikzstyle{DataIO} = [trapezium,trapezium left angle=75,trapezium right angle=105,draw,fill=white]
+\tikzstyle{DataLine} = [color=black!40,line width=5pt,line cap=rect]
+\tikzstyle{ProcessHV} = [-,line width=1pt,to path={-| (\tikztotarget)}]
+\tikzstyle{MatrixSetup} = [row sep=3mm, column sep=2mm]
+\pgfdeclarelayer{data}
+\pgfdeclarelayer{process}
+\pgfsetlayers{data,process,main}
+%=============================================
+\begin{tikzpicture}[every node/.style={scale=0.8}]
+
+\matrix[MatrixSetup]{
+%Row 0
+&
+\node [DataIO] (output_GS) {$u^t, v^t$};&
+\node [DataIO] (output_CD) {$\at{T}{x=0}, \at{T}{x=L_x}$};&
+\node [DataIO] (output_NS) {$\at{u}{\partial\Omega}, \at{v}{\partial\Omega}$};&
+\\
+%Row 1
+\node [DataIO] (left_output_GS) {$\text{(no data)}$};&
+\node [MDA] (GS) {$\begin{array}{c}\text{0,3$\rightarrow $1} \\ \text{\textsc{Gau\ss}-\textsc{Seidel}}\end{array}$};&
+\node [DataInter] (GS-CD) {$1: u^t, v^t$};&
+&
+\\
+%Row 2
+\node [DataIO] (left_output_CD) {$T$};&
+\node [DataInter] (CD-GS) {$3: T$};&
+\node [Function] (CD) {$\begin{array}{c}\text{1:} \\ \text{convection-diffusion}\end{array}$};&
+\node [DataInter] (CD-NS) {$2: T$};&
+\\
+%Row 3
+\node [DataIO] (left_output_NS) {$u, v, p$};&
+\node [DataInter] (NS-GS) {$3: u, v$};&
+&
+\node [Function] (NS) {$\begin{array}{c}\text{2:} \\ \text{\textsc{Navier}-\textsc{Stokes}}\end{array}$};&
+\\
+%Row 4
+&
+&
+&
+&
+\\
+};
+
+% XDSM process chains
+{ [start chain=process]
+ \begin{pgfonlayer}{process} 
+\chainin (GS);
+\chainin (CD) [join=by ProcessHV];
+\chainin (NS) [join=by ProcessHV];
+\chainin (GS) [join=by ProcessHV];
+\end{pgfonlayer}
+}
+
+\begin{pgfonlayer}{data}
+\path
+% Horizontal edges
+(GS) edge [DataLine] (GS-CD)
+(CD) edge [DataLine] (CD-NS)
+(CD) edge [DataLine] (CD-GS)
+(NS) edge [DataLine] (NS-GS)
+(CD) edge [DataLine] (left_output_CD)
+(NS) edge [DataLine] (left_output_NS)
+(GS) edge [DataLine] (left_output_GS)
+% Vertical edges
+(GS-CD) edge [DataLine] (CD)
+(CD-NS) edge [DataLine] (NS)
+(CD-GS) edge [DataLine] (GS)
+(NS-GS) edge [DataLine] (GS)
+(GS) edge [DataLine] (output_GS)
+(CD) edge [DataLine] (output_CD)
+(NS) edge [DataLine] (output_NS);
+\end{pgfonlayer}
+
+\end{tikzpicture}

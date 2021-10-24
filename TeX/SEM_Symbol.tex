@@ -1,0 +1,121 @@
+\begin{longtable}{@{}p{0.08\textwidth} p{0.08\textwidth} p{0.75\textwidth}}
+%• & • & • & •\\
+\mbox{Latin Symbols}\\\hline
+$\check{a}$ & \si{\m\squared\per\s} & thermal diffusivity\\
+$\vec{b}$ & ~ & right-hand-side vector\\
+$\mat C$ & ~ & convection matrix\\
+$\emat C$ & ~ & element convection array\\
+$DOF$ & ~ & total amount of degrees of freedom\\
+%$f$ & ~ & function\\
+%$\vec{f}$ & ~ & global vector of~$f$\\
+\texttt{f} & ~ & solver of the~$\mathcal{F}$-problem\\
+$\mathcal{F}$ & ~ & differential operator\\
+$\mat F$ & ~ & product matrix\\
+\texttt{g} & ~ & solver of the~$\mathcal{G}$-problem\\
+$\check{g}$ & \si{\m\per\s\squared} & gravitational acceleration\\
+$\mathcal{G}$ & ~ & differential operator\\
+$\mat G$ & ~ & gradient matrix\\
+$\emat G$ & ~ & element gradient array\\
+$Gr$ & ~ & \textsc{Grashof} number, see~(\ref{eq:Boussinesq_dimless})\\
+$\mat H$ & ~ & iteration matrix\\
+$\mat I$ & ~ & identity matrix\\
+$\mat J$ & ~ & \textsc{Jacobi} matrix\\
+$\mat K$ & ~ & stiffness matrix\\
+$\emat K$ & ~ & element stiffness array\\
+$\ell$ & ~ & \textsc{Lagrange} interpolation polynomial\\
+$L$ & ~ & dimensionless length,~$L := \check{L}/\check{L}_\text{ref}$\\
+$\check{L}$ & \si{\m} & length\\
+$m$ & ~ & number of preconditioner steps\\
+$mtol$ & ~ & tolerance on mean square root residual\\
+$\mat M$ & ~ & mass matrix\\
+$\emat M$ & ~ & element mass array\\
+$n$ & ~ & number of linear solver steps\\
+$N$ & ~ & amount of grid points,~$N := (N_{\mathrm{e}x}P+1)\cdot(N_{\mathrm{e}y}P+1)$\\
+$N_{\mathrm{e}x}$ & ~ & amount of elements in~$x$-direction\\
+$N_{\mathrm{e}y}$ & ~ & amount of elements in~$y$-direction\\
+$p$ & ~ & dimensionless pressure,~$p := \check{p}\check{L}_\text{ref}/(\check{\nu}\check{\varrho}_0\check{U}_\text{ref})$\\
+$\vec{p}$ & ~ & discretization of~$p$\\
+$\check{p}$ & \si{Pa} & pressure\\
+$P$ & ~ & polynomial order, \textsc{Legendre} polynomial\\
+$P\acute{e}$ & ~ & \textsc{P\'{e}clet} number, see~(\ref{eq:Boussinesq_dimless})\\
+$Pr$ & ~ & \textsc{Prandtl} number, see~(\ref{eq:Boussinesq_dimless})\\
+$\vec{r}$ & ~ & residual functions\\
+$\Delta\vec{r}$ & ~ & prescribed residual difference\\
+$Ra$ & ~ & \textsc{Rayleigh} number,~$Ra = Gr \cdot Pr$\\
+$Re$ & ~ & \textsc{Reynolds} number, see~(\ref{eq:Boussinesq_dimless})\\
+$\mat S$ & ~ & \textsc{Schur} complement\\
+$T$ & ~ & dimensionless temperature perturbation,~$T := \check{T}/\Delta\check{T}$\\
+$\vec{T}$ & ~ & discretization of~$T$\\
+$\check{T}$ & \si{\kelvin} & temperature perturbation\\
+$\Delta\check{T}$ & \si{\kelvin} & temperature difference\\
+$u$ & ~ & dimensionless velocity in~$x$-direction,~$u := \check{u}/\check{U}_\text{ref}$\\
+$\vec{u}$ & ~ & discretization of~$u$\\
+$\check{u}$ & \si{\m\per\s} & velocity in~$x$-direction\\
+$\check{u}_\text{max}$ & \si{\m\per\s} & maximum velocity in~$x$-direction on the vertical mid-plane\\
+$v$ & ~ & dimensionless velocity in~$y$-direction,~$v := \check{v}/\check{U}_\text{ref}$\\
+$\vec{v}$ & ~ & discretization of~$v$\\
+$\check{v}$ & \si{\m\per\s} & velocity in~$y$-direction\\
+$\check{v}_\text{max}$ & \si{\m\per\s} & maximum velocity in~$y$-direction on the horizontal mid-plane\\
+%$w_i$ & ~ & $i$-th quadrature weight\\
+$w$ & ~ & quadrature weight\\
+$x$ & ~ & first spatial coordinate; function\\
+$\vec{x}$ & ~ & discretization of~$x$\\
+$y$ & ~ & second spatial coordinate; function\\
+$\vec{y}$ & ~ & discretization of~$y$\\[10pt]
+%===============================================
+\mbox{Greek Symbols}\\\hline
+$\check{\beta}$ & \si{\per\kelvin} & thermal expansion coefficient\\
+$\delta_{ij}$ & ~ & \textsc{Kronecker} delta\\
+$\eta$ & ~ & standard variable in $y$ direction, $\eta \in [-1,1]$\\
+$\eta^n$ & ~ & $n$-th $y$-transformation, see (\ref{eq:SEM_transform_y})\\
+$\theta$ & ~ & relaxation parameter\\
+$\mu$ & ~ & asymptotic rate of linear convergence,~$\mu := \limsup\limits_{k \rightarrow \infty} \sqrt[k]{\frac{\norm{\vec{x}^{\langle k \rangle} - \vec{x}^*}}{\norm{\vec{x}^{\langle 0 \rangle} - \vec{x}^*}}}$ \\ %RICHTER Satz 7.3 // SANDER 8.2.2
+$\check{\nu}$ & \si{\m\squared\per\s} & kinematic viscosity\\
+$\xi$ & ~ & standard variable in $x$ direction, $\xi \in [-1,1]$\\
+$\xi^m$ & ~ & $m$-th $x$-transformation, see (\ref{eq:SEM_transform_x})\\
+$\check{\varrho}$ & \si{\kg\per\m\cubed} & density\\
+$\varphi^m$ & ~ & basis function in $\Omega_x^m$\\
+$\varphi^n$ & ~ & basis function in $\Omega_y^n$\\
+$\varphi^{mn}$ & ~ & basis function in $\Omega_x^{mn}$\\
+$\omega$ & ~ & test function\\
+$\Omega$ & ~ & domain, $\Omega := [0, L_x] \times [0, L_y]$\\
+$\Omega_x^m$ & ~ & $m$-th partition of $[0, L_x]$\\
+$\Omega_y^n$ & ~ & $n$-th partition of $[0, L_y]$\\
+$\Omega^{mn}$ & ~ & $m$-$n$-th element of $\Omega$, $\Omega^{mn} := \Omega_x^m \times \Omega_y^n$\\
+$\partial\Omega$ & ~ & boundary of~$\Omega$\\[10pt]
+%===============================================
+\mbox{Operators}\\\hline
+$\pdiff{\cdot}{n}$ & ~ & normal derivative\\
+$\kappa(\mat A)$ & ~ & condition number of~$\mat A$,~$\kappa(\mat A) = \norm{A^{-1}}\norm{A}$ \\
+$\varrho(\mat A)$ & ~ & spectral radius of~$\mat A$ \\
+$\del$ & ~ & nabla operator,~$\del = \left[ \partial/\partial_x\; \partial/\partial_y \right]^\T$\\
+$\norm{\cdot\vphantom{1}}$ & ~ & a vector norm; its induced matrix norm\\[10pt]
+%===============================================
+\mbox{Indices}\\\hline
+cont & ~ & continuity\\
+lin & ~ & linear\\
+nonlin & ~ & nonlinear\\
+ref & ~ & reference\\
+s & ~ & standard\\
+S & ~ & \textsc{Schur}\\
+$T$ & ~ & w.r.t. variable~$T$\\
+$u$ & ~ & w.r.t. variable~$u$\\
+$v$ & ~ & w.r.t. variable~$v$\\
+velo & ~ & velocities\\[10pt]
+%===============================================
+\mbox{Abbreviations}\\\hline
+COO & ~ & coordinate format\\
+CSR & ~ & compressed spare row format\\
+DLR & ~ & Deutsches Zentrum f\"{u}r Luft- und Raumfahrt (German Aerospace Center)\\
+GLL & ~ & \textsc{Gau\ss}-\textsc{Lobatto}-\textsc{Legendre}\\
+GMRES & ~ & generalized minimal residual\\
+GS & ~ & nonlinear block-\textsc{Gau\ss}-\textsc{Seidel}\\
+JNK & ~ & block-\textsc{Jacobi} preconditioned \textsc{Newton}-\textsc{Krylov}\\
+LGMRES & ~ & loose generalized minimal residual\\
+MDAO & ~ & multidisciplinary design, analysis, and optimization\\
+MPI & ~ & message parsing interface\\
+NASA & ~ & National Aeronautics and Space Administration\\
+NJ & ~ & (one-step) \textsc{Newton}-block-\textsc{Jacobi}\\
+PDE & ~ & partial differential equation\\
+SEM & ~ & spectral element method
+\end{longtable}

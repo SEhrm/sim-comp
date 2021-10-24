@@ -1,0 +1,9 @@
+\begin{tikzpicture}[scale=3]
+\draw (0,1) -- node[above] {adiabatic} node[below] {no-slip} (1,1) -- node[above, rotate=90] {no-slip} node[below, rotate=90] {isothermal (cold)} (1,0) -- node[below] {adiabatic} node[above] {no-slip} (0,0) -- node[above, rotate=90] {isothermal (hot)} node[below, rotate=90] {no-slip} (0,1); % cavity
+%\draw (0,1) -- node[above] {adiabatic} (-0.5,1) -- node[above, rotate=90] {$\left( \pdiff{T}{\vec{n}} \right)_\text{L}$ or $T_\text{L}$} (-0.5,0) -- node[below] {adiabatic} (0,0) -- cycle; % left solid
+\node at (0.5,0.5) {$\begin{gathered}u, v, p, T\end{gathered}$};
+%\node at (-0.25,0.5) {$\begin{gathered} T \\ (a_\text{S})\end{gathered}$};
+%\draw[black] (0.5,0.5) circle (0.25);
+\draw[thick, ->] (0,0) -- (0,0.1) node [at start, left] {$y$};
+\draw[thick, ->] (0,0) -- (0.1,0) node [right, below] {$x$};
+\end{tikzpicture}

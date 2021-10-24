@@ -1,0 +1,104 @@
+\def\deVahlAu{3.649}
+\def\deVahlAy{0.813}
+\def\deVahlAv{3.697}
+\def\deVahlAx{0.178}
+\def\deVahlBu{16.178}
+\def\deVahlBy{0.823}
+\def\deVahlBv{19.617}
+\def\deVahlBx{0.119}
+\def\fac{2}
+\begin{tikzpicture}
+\def\RaA{1.0e+03}
+\def\RaB{1.0e+04}
+\def\P{4}
+\def\mtolNonlin{1e-8}
+\begin{groupplot}[
+	group style={group size=2 by 4,
+	xlabels at=edge bottom,
+	xticklabels at=edge bottom,
+	ylabels at=edge left,
+    vertical sep=1em,
+    horizontal sep=4em},
+    xlabel={$N_{\text{e}x}=N_{\text{e}y}$},
+    y tick label style={/pgf/number format/.cd,fixed,fixed zerofill,precision=2,/tikz/.cd},
+	enlarge x limits=0.01,
+	clip=true,
+	height=0.15\textheight,
+	width=0.44\textwidth,
+	table/col sep=comma,
+	legend pos= outer north east,
+	legend style={cells={anchor=west}},
+	cycle list name=my color,
+	xmin=4,xmax=12,
+	%xtick distance=2,
+	grid=major,
+	title style={anchor=south west, at={(0,1)}, fill=white, draw=black, align=left}
+	]
+	%============================================================================
+	\pgfplotsset{my plot/.code args={#1/#2}%setup
+	{
+		\addplot+[x filter/.code={\ifthenelse{
+		\equal{\thisrow{mode_id}}{0}\AND
+		\equal{\thisrow{Ra}}{#1}
+%		\AND\NOT\equal{\thisrow{N_e}}{3}
+		}{}{\def\pgfmathresult{NaN}}}, restrict x to domain=4:12] table[x=N_e,y=#2] {Boussinesq_study.csv};
+	}}
+	\nextgroupplot[
+	title={$Ra:=\num{\RaA}$}, 
+	ylabel={$\dfrac{\check{u}_\text{max}}{\check{a}/\check{L}_\text{ref}}$},
+	ymax=\deVahlAu*(1+\fac/100),ymin=\deVahlAu*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaA/maxm_u}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlAu};
+	\nextgroupplot[
+	title={$Ra:=\num{\RaB}$}, 
+	y tick label style={/pgf/number format/.cd,fixed,fixed zerofill,precision=1,/tikz/.cd},
+	ymax=\deVahlBu*(1+\fac/100),ymin=\deVahlBu*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaB/maxm_u}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlBu};
+	%===================	
+	\nextgroupplot[
+	%xlabel={$N_{\text{e}x}=N_{\text{e}y}$},
+	ylabel={at $y$},
+	ymax=\deVahlAy*(1+\fac/100),ymin=\deVahlAy*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaA/amaxm_u}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlAy};
+	\nextgroupplot[
+	%xlabel={$N_{\text{e}x}=N_{\text{e}y}$},
+	ymax=\deVahlBy*(1+\fac/100),ymin=\deVahlBy*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaB/amaxm_u}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlBy};
+	%===============================================================================
+	\nextgroupplot[
+	ylabel={$\dfrac{\check{v}_\text{max}}{\check{a}/\check{L}_\text{ref}}$},
+	ymax=\deVahlAv*(1+\fac/100),ymin=\deVahlAv*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaA/maxm_v}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlAv};
+	\nextgroupplot[
+	y tick label style={/pgf/number format/.cd,fixed,fixed zerofill,precision=1,/tikz/.cd},
+	ymax=\deVahlBv*(1+\fac/100),ymin=\deVahlBv*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaB/maxm_v}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlBv};
+	%===================	
+	\nextgroupplot[
+	y tick label style={/pgf/number format/.cd,fixed,fixed zerofill,precision=3,/tikz/.cd},
+%	xlabel={$N_{\text{e}x}=N_{\text{e}y}$},
+	ylabel={at $x$},
+	ymax=\deVahlAx*(1+\fac/100),ymin=\deVahlAx*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaA/amaxm_v}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlAx};
+	\nextgroupplot[
+	y tick label style={/pgf/number format/.cd,fixed,fixed zerofill,precision=3,/tikz/.cd},
+%	xlabel={$N_{\text{e}x}=N_{\text{e}y}$},
+	ymax=\deVahlBx*(1+\fac/100),ymin=\deVahlBx*(1-\fac/100)
+	]
+	\pgfplotsset{my plot={\RaB/amaxm_v}};
+	\addplot[densely dashed, black, domain=2:12] {\deVahlBx};
+\end{groupplot}
+\end{tikzpicture}

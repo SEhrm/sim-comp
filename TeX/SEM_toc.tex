@@ -1,0 +1,55 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[left=4cm,right=4cm,top=3cm,bottom=3cm]{geometry}
+
+\setlength{\parindent}{0pt}
+\renewcommand{\labelenumi}{\arabic{enumi}}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+
+\begin{document}
+\begin{enumerate}
+\item Background
+\begin{enumerate}
+\item Motivation \\ (Connection to DLR; application of higher order theory)
+\item Scope \\ (Easily comprehensible code; benchmark problems; scalabilty and convergence test)
+\item Related Works \\ (Preliminary works from DLR)
+\end{enumerate}
+\end{enumerate}
+A Mathematical Background (Documentation)
+\begin{enumerate}\setcounter{enumi}{1}
+\item \textsc{Lagrange} Interpolation and \textsc{Gauss}-\textsc{Legendre}-\textsc{Lobatto} Quadrature \\ (\textsc{Lagrange} basis; Interpolation; quadrature nodes and weights; errors)
+\item Discretization of the \textsc{Helmholtz} Equation
+\begin{enumerate}
+\item One-Dimensional Case \\ (Weak form; mass/stiffness matrix; element partition, local, global and free nodes; simple non-homogeneous example) 
+\item Two-Dimensional Case \\ (Weak form; Extension of 1d matrices by \textsc{Kronecker} product;  simple non-homogeneous example)
+\end{enumerate}
+\item Discretization of the \textsc{Burgers} Equation \\ (Weak form; non-constant convection matrix; linear multistep method)
+\item Parallel implementation \\ (Sparse matrices; \textit{OpenMDAO} for (non-linear) systems; (approximate) \textsc{Jacobi} matrix)
+\item Applications
+\begin{enumerate}
+\item \textsc{Laplace} Equation \\ (Potential flow)
+\item Diffusion Equation \\ (Heat Equation)
+\item \textsc{Stokes} Equations \\ (Lid-driven flow in a rectangular cavity)
+\item \textsc{Navier}-\textsc{Stokes} Equations \\ (Lid-driven flow in a rectangular cavity)
+\item \textsc{Boussinesq} Equations \\ (Natural convection in a rectangular cavity)
+\end{enumerate}
+\end{enumerate}
+B Performance Analysis (\textsc{Boussinesq} Equations)
+\begin{enumerate}\setcounter{enumi}{6}
+\item Discretization of Space
+\begin{enumerate}
+\item Error \\ (Experimental convergence rate w.r.t $P, N_\text{e}, DoF$)
+\item Runtime \\ (w.r.t $P, N_\text{e}, DoF$)
+\end{enumerate}
+\item Discretization of Time
+\begin{enumerate}
+\item Error \\ (Integration-/splitting error w.r.t. $\Delta t$)
+\item Runtime \\ (w.r.t. $\Delta t$)
+\end{enumerate}
+\end{enumerate}
+\end{document}

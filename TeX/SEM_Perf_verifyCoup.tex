@@ -1,0 +1,70 @@
+\makeatletter
+\pgfplotstableset{
+    discard if not/.style={
+        row predicate/.code={
+            \def\pgfplotstable@loc@TMPd{\pgfplotstablegetelem{##1}{Ra}\of}
+            \expandafter\pgfplotstable@loc@TMPd\pgfplotstablename
+            \edef\tempRa{\pgfplotsretval}
+            \def\pgfplotstable@loc@TMPd{\pgfplotstablegetelem{##1}{N_e}\of}
+            \expandafter\pgfplotstable@loc@TMPd\pgfplotstablename
+            \edef\tempNex{\pgfplotsretval}
+            \def\pgfplotstable@loc@TMPd{\pgfplotstablegetelem{##1}{mode_id}\of}
+            \expandafter\pgfplotstable@loc@TMPd\pgfplotstablename
+            \edef\tempMode{\pgfplotsretval}
+            \def\pgfplotstable@loc@TMPd{\pgfplotstablegetelem{##1}{AGi}\of}
+            \expandafter\pgfplotstable@loc@TMPd\pgfplotstablename
+            \edef\tempAG{\pgfplotsretval}
+            \ifthenelse{\equal{\tempNex}{8}}{}{\pgfplotstableuserowfalse}
+            \ifthenelse{\equal{\tempRa}{1.0e+03}\OR\equal{\tempRa}{1.0e+04}\OR\equal{\tempRa}{1.0e+05}}{}{\pgfplotstableuserowfalse}
+            \ifthenelse{\equal{\tempMode}{1}\AND\equal{\tempAG}{0}}{\pgfplotstableuserowfalse}{}
+        }
+    }
+}
+\makeatother
+\pgfplotstabletypeset[
+col sep=comma,
+%begin table=\begin{longtable},
+%end table=\end{longtable},
+columns={mode_id,Ra,maxm_u,amaxm_u,maxm_v,amaxm_v},
+%sort, sort key={mode_id},
+%row predicate/.code={
+%	\pgfplotstablegetelem{#1}{Ra}\of{Boussinesq_study.CSV}
+%	\ifthenelse{\equal{\pgfplotsretval}{1.00E+03}\OR\equal{\pgfplotsretval}{1.00E+04}}{}{\pgfplotstableuserowfalse}
+%},
+discard if not,
+columns/mode_id/.style={
+	string type,
+	column name=method,
+	string replace={0}{JNK},
+	string replace={1}{NJ},
+	string replace={2}{GS}
+},
+columns/Ra/.style={
+	sci,precision=0,zerofill,
+	dec sep align,
+	column name=$Ra$
+},
+columns/maxm_u/.style={
+	fixed,precision=5,zerofill,
+	dec sep align,
+	column name=$\frac{\check{u}_\text{max}}{\check{a}/\check{L}_\text{ref}}$
+},
+columns/amaxm_u/.style={
+	fixed,precision=4,zerofill,
+	dec sep align,
+	column name=at $y$
+},
+columns/maxm_v/.style={
+	fixed,precision=5,zerofill,
+	dec sep align,
+	column name=$\frac{\check{v}_\text{max}}{\check{a}/\check{L}_\text{ref}}$
+},
+columns/amaxm_v/.style={
+	fixed,precision=4,zerofill,
+	dec sep align,
+	column name=at $y$
+},
+every column/.style={postproc cell content/.style={@cell content/.add={\footnotesize}{}}},
+every head row/.style={before row=\hline\\[-10pt], after row=[4pt]\hline},
+every last row/.style={after row=\hline},
+]{Boussinesq_study.CSV}%
