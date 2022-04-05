@@ -295,7 +295,7 @@ to be solved for updates~$\Delta\vec{x}$ and~$\Delta\vec{y}$ such that~$\vec{x} 
 such that no additional solver for the linear system is required and~\texttt{get\_update} must only be applied once per \textsc{Newton} iteration. The modification from~(\ref{eq:Coup_sysMult}) to~(\ref{eq:Coup_sysInexact}) can be interpreted as solving~(\ref{eq:Coup_sysMult}) with one step of the zero-initialized linear block-\textsc{Jacobi} method~\cite[see][Eq.~7.4.24]{Ortega}. By~\cite[see][Th.~10.3.1]{Ortega}, the spectral radius~$\varrho(\cdot)$, and the condition number~$\kappa(\cdot)$, \textsc{Newton}'s method converges, locally in the neighborhood of the solution~$(\vec{x}^*, \vec{y}^*)$, linear at best, if the asymptotic rate of convergence~$\mu$ is less than unity, where
 \begin{align}
 \mu &= \max\left\lbrace \sqrt{\at{\varrho\left( \pdiff{\vec{r}_y}{\vec{y}}^{-1} \pdiff{\vec{r}_y}{\vec{x}} \pdiff{\vec{r}_x}{\vec{x}}^{-1} \pdiff{\vec{r}_x}{\vec{y}} \right)}{\vec{x}^*, \vec{y}^*}}, \sqrt{\at{\varrho\left( \pdiff{\vec{r}_x}{\vec{x}}^{-1} \pdiff{\vec{r}_x}{\vec{y}} \pdiff{\vec{r}_y}{\vec{y}}^{-1} \pdiff{\vec{r}_y}{\vec{x}} \right)}{\vec{x}^*, \vec{y}^*}} \right\rbrace \nonumber\\*
-&\leq \sqrt{\at{\kappa\left( \pdiff{\vec{r}_y}{\vec{y}} \right)\frac{\norm{\pdiff{\vec{r}_y}{\vec{x}}}}{\norm{\pdiff{\vec{r}_y}{\vec{y}}}} \cdot \kappa\left( \pdiff{\vec{r}_x}{\vec{x}} \right)\frac{\norm{\pdiff{\vec{r}_x}{\vec{y}\vphantom{\vec{y}}}}}{\norm{\pdiff{\vec{r}_x}{\vec{x}}}}}{\vec{x}^*, \vec{y}^*}}\text{,}\label{eq:Coup_convNJ}
+&\leq \sqrt{\at{\kappa\left( \pdiff{\vec{r}_y}{\vec{y}} \right)\frac{\norm{\pdiff{\vec{r}_y}{\vec{x}}}}{\norm{\pdiff{\vec{r}_y}{\vec{y}}}} \cdot \kappa\left( \pdiff{\vec{r}_x}{\vec{x}} \right)\frac{\norm{\pdiff{\vec{r}_x}{\vec{y}}}}{\norm{\pdiff{\vec{r}_x}{\vec{x}\vphantom{\vec{y}}}}}}{\vec{x}^*, \vec{y}^*}}\text{,}\label{eq:Coup_convNJ}
 \end{align}
 meaning the norms of the `off-diagonal' terms in system~(\ref{eq:Coup_sysMult}) have to be sufficiently smaller than of the `diagonal' terms.\footnote{The identity~$\varrho\left( \begin{bmatrix} \mat 0 & \mat A \\ \mat B & \mat 0\end{bmatrix} \right) = \max\left( \sqrt{\varrho\left( \mat A \mat B \right)}, \sqrt{\varrho\left( \mat B \mat A \right)} \right)$ was used.}
 Applying more than one step, e.g.~$n$ steps, of the block-\textsc{Jacobi} method is not considered here: for small~$n$, the amount of \texttt{get\_update} calls per nonlinear iteration is proportional to~$n$, but, by~\cite[see][Th.~10.3.1]{Ortega}, the asymptotic rate of convergence is just~$\mu^n$, meaning the amount of nonlinear iterations is just inverse proportional to~$n$; hence there is no difference for the total amount of \texttt{get\_update} calls. 
@@ -303,8 +303,10 @@ Also not considered is applying as many steps as necessary to solve system~(\ref
 Hence, from now on, by the \textsc{Newton}-block-\textsc{Jacobi} method, the \emph{one}-step variant is meant. 
 The linear block-\textsc{Gau\ss}-\textsc{Seidel} method is likewise not considered as solver here because it can not run in parallel~--~though, the single-disciplinary solvers may internally run in a parallel fashion.
 \item \textit{Block-\textsc{Jacobi} preconditioned \textsc{Newton}-\textsc{Krylov}}: multiplying~(\ref{eq:Coup_sysMult}) with the inverse `diagonal' terms gives the equivalent system
+\newcounter{tmpequation}%
+\setcounter{tmpequation}{\value{equation}+1}% save counter bc nested subequations
 \begin{subequations}\begin{subequations}\begin{alignat}{7}
-&~ &\, &\Delta \vec{x} &\;+\; &\pdiff{\vec{r}_x}{\vec{x}}^{-1}\pdiff{\vec{r}_x}{\vec{y}} &\, &\Delta \vec{y} &\; = &\overset!= &\; &-\pdiff{\vec{r}_x}{\vec{x}}^{-1}\vec{r}_x\text{,}\\*
+&~ &\, &\Delta \vec{x} &\;+\; &\pdiff{\vec{r}_x}{\vec{x}}^{-1}\pdiff{\vec{r}_x}{\vec{y}} &\, &\Delta \vec{y} &\; &\overset!= &\; &-\pdiff{\vec{r}_x}{\vec{x}}^{-1}\vec{r}_x\text{,}\\*
 &\pdiff{\vec{r}_y}{\vec{y}}^{-1}\pdiff{\vec{r}_y}{\vec{x}} &\, &\Delta \vec{x} &\;+\; &~ &\, &\Delta \vec{y} &\; &\overset!= &\; &-\pdiff{\vec{r}_y}{\vec{y}}^{-1}\vec{r}_y\text{,}
 \end{alignat}\label{eq:Coup_sysPreconMatrix}\end{subequations}
 respectively
@@ -312,6 +314,7 @@ respectively
 \hspace*{-0.7em}\texttt{f.get\_update((f.get\_dresidual($\Delta\vec{x}$;$\Delta\vec{y}$))} &\overset!= \texttt{f.get\_update($-\vec{r}_x$)}\text{,}\\*
 \hspace*{-0.7em}\texttt{g.get\_update((g.get\_dresidual($\Delta\vec{y}$;$\Delta\vec{x}$))} &\overset!= \texttt{g.get\_update($-\vec{r}_y$)}\text{.}
 \end{align}\label{eq:Coup_sysPreconOperator}\end{subequations}\label{eq:Coup_sysPrecon}\end{subequations}
+\setcounter{equation}{\thetmpequation}% reapply counter bc nested subequations
 The modification from~(\ref{eq:Coup_sysMult}) to~(\ref{eq:Coup_sysPreconMatrix}) can be interpreted as left-pre\-con\-dit\-ion\-ing with one step of the zero-initialized linear block-\textsc{Jacobi} method.
 System~(\ref{eq:Coup_sysPrecon}), which has the same solution as~(\ref{eq:Coup_sysMult}), \emph{still} has to be solved for updates, but  \emph{may} be better \emph{conditioned} than system~(\ref{eq:Coup_sysMult}), \emph{even} if the norms of the `off-diagonal' terms in system~(\ref{eq:Coup_sysMult}) are larger than of the `diagonal' terms~--~one can easily show that the success of the linear block-\textsc{Jacobi} method is not necessary for the success of \emph{one}-step block-\textsc{Jacobi} preconditioning.
 %\footnote{Consider the matrix~$\begin{bmatrix}3 & 8\\ 3 & 2\end{bmatrix}$ with condition number~$\kappa \approx \num{4.56}$ w.r.t. the spectral norm. For this matrix, the linear \textsc{Jacobi} method \emph{fails} and the off-diagonal terms are \emph{not} smaller than the diagonal terms. Still, the one-step \textsc{Jacobi} preconditioned matrix~$\begin{bmatrix}1 & 8/3\\ 3/3 & 1\end{bmatrix}$ with condition number~$\kappa \approx \num{3.50}$ is better \emph{conditioned}}. 
@@ -388,18 +391,18 @@ prob = om.Problem() # initialize problem
 pg = prob.model.add_subsystem('PG', om.ParallelGroup()) # add parallel group
 pg.add_subsystem('G', g_comp(solver_g=g, solver_f=f)) # add g-component (rank=1)
 pg.add_subsystem('F', f_comp(solver_f=f, solver_g=g)) # add f-component (rank=0)
-pg.connect('G.x_g', 'F.x_g') # plug x into F
-pg.connect('F.y_f', 'G.y_f') # plug y into G
+pg.connect('G.y_g', 'F.y_g') # plug y into F
+pg.connect('F.x_f', 'G.x_f') # plug x into G
 \end{lstlisting}
 The \textsc{Newton}-block-\textsc{Jacobi} method would then be implemented by
 \begin{lstlisting}[firstnumber=17]
 pg.nonlinear_solver = om.NewtonSolver(...) # top-level NEWTON solver
+pg.nonlinear_solver.linesearch = om.ArmijoGoldsteinLS(...) # backtracking
 pg.linear_solver = om.LinearBlockJac(...) # top-level linear block-JACOBI solver
 \end{lstlisting}
 the block-\textsc{Jacobi} preconditioned \textsc{Newton}-\textsc{Krylov} method by
 \begin{lstlisting}[firstnumber=17]
 pg.nonlinear_solver = om.NewtonSolver(...) # top-level NEWTON solver
-pg.nonlinear_solver.linesearch = om.ArmijoGoldsteinLS(...) # backtracking
 pg.linear_solver = om.PETScKrylov(...) # top-level KRYLOV solver
 pg.linear_solver.precon = om.LinearBlockJac(...) # linear block-JACOBI precon
 \end{lstlisting}
@@ -673,7 +676,7 @@ Table~\ref{tab:Perf_verifyCoup} shows the maximum horizontal velocity over the v
 \begin{figure}[!b]
 \centering
 \input{SEM_Perf_verifyN}
-\caption{Maximum horizontal velocity over the vertical mid-plane and its locations against number of elements~$N_{\text{e}x}=N_{\text{e}y}$ for various \textsc{Rayleigh} numbers. The dashed lines show the values from the reference solution~\cite[Tab.~V]{DeVahl}. The ordinates range from \SI{-\fac}{\percent} to \SI{\fac}{\percent}.}\label{fig:Perf_verifyN}
+\caption{Maximum horizontal/vertical velocities over the vertical/horizontal mid-plane and their locations against number of elements~$N_{\text{e}x}=N_{\text{e}y}$ for various \textsc{Rayleigh} numbers. The dashed lines show the values from the reference solution~\cite[Tab.~V]{DeVahl}. The ordinates range from \SI{-\fac}{\percent} to \SI{\fac}{\percent}.}\label{fig:Perf_verifyN}
 \end{figure}
 \sidenote{Accuracy}For the grids, it is expected that for finer grid, i.\,e. for rising number of degrees of freedom, the solution gets increasingly accurate (grid convergence). Usually, this is achieved by h-refinement, i.\,e. by setting a higher number of elements, rather than by p-refinement, i.\,e. by setting a higher polynomial order.
 Figure~\ref{fig:Perf_verifyN} shows the maximum horizontal velocity over the vertical mid-plane and its location against the number of (equal width) elements~$N_{\text{e}x}=N_{\text{e}y}$.
